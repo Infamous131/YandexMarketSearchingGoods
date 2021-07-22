@@ -1,6 +1,7 @@
 # coding: utf-8
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+import time
 
 
 # Узнаём имя новой вкладки и переключаемся на нее
@@ -48,28 +49,32 @@ def device_page_on_market(browser, device, brand):
     # Проверка бренда устройства с искомым
     assert brand in device_header, f'There is no {brand} brand in the brief ' \
                                    f'description of the device'
+    print('The product matches the desired one')
 
 
 # Объявление констант
 YANDEX_LINK = "https://yandex.ru/"
 SEARCHING_DEVICE_TYPE = 'беспроводные TWS-наушники'
 SEARCHING_BRAND = 'Apple'
+# Искомый товар
+searching_goods = SEARCHING_DEVICE_TYPE + ' ' + SEARCHING_BRAND
 
-try:
-    # Искомый товар
-    searching_goods = SEARCHING_DEVICE_TYPE + ' ' + SEARCHING_BRAND
-    # Открытие Chrome браузера
-    chrome_browser = open_browser()
-    # Действия на Яндекс поисковике
-    yandex_search(chrome_browser, YANDEX_LINK)
-    # Переключение на вкладку Маркета
-    window_switching(1, chrome_browser)
-    # Поиск товара на Яндекс.Маркете
-    market_search(chrome_browser)
-    # Переключение на вкладку товара
-    window_switching(2, chrome_browser)
-    # Проверка совпадения товара с искомым
-    device_page_on_market(chrome_browser, SEARCHING_DEVICE_TYPE, SEARCHING_BRAND)
 
-finally:
-    chrome_browser.quit()
+def main():
+    try:
+        # Открытие Chrome браузера
+        chrome_browser = open_browser()
+        # Действия на Яндекс поисковике
+        yandex_search(chrome_browser, YANDEX_LINK)
+        # Переключение на вкладку Маркета
+        window_switching(1, chrome_browser)
+        # Поиск товара на Яндекс.Маркете
+        market_search(chrome_browser)
+        # Переключение на вкладку товара
+        window_switching(2, chrome_browser)
+        # Проверка совпадения товара с искомым
+        device_page_on_market(chrome_browser, SEARCHING_DEVICE_TYPE, SEARCHING_BRAND)
+
+    finally:
+        time.sleep(5)
+        chrome_browser.quit()

@@ -1,4 +1,4 @@
-import Scripts
+import scripts
 
 if __name__ == "__main__":
-    Scripts.goods_searching.main()
+    scripts.goods_searching.main()
